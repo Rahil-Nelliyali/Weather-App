@@ -1,0 +1,129 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .container {
+    text-align: center;
+  }
+  
+  .weather {
+    background-color: #333;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  input[type='text'] {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+  }
+  
+  button {
+    background-color: #007bff;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    padding: 10px 20px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  .error p {
+    color: #ff3333;
+    margin: 10px 0;
+  }
+  
+  .winfo {
+    margin-top: 20px;
+  }
+  
+  img {
+    max-width: 100%;
+  }
+  
+  h1 {
+    font-size: 36px;
+    margin-top: 10px;
+    color: #fff;
+  }
+  
+  h2 {
+    font-size: 24px;
+    color: #fff;
+  }
+  
+  .details {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .col {
+    text-align: center;
+  }
+  
+  .perc,
+  .label {
+    font-size: 18px;
+    color: #ddd;
+  }
+  
+  .winfo:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .forecast {
+    margin-top: 20px;
+    background-color: #333;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+  }
+  
+  .forecast h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .forecast ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .forecast li {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  .last-updated {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #888;
+  }

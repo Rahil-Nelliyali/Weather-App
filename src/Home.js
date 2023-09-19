@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './style.css';
 import axios from 'axios';
 
@@ -8,63 +8,67 @@ function Home() {
     name: '',
     humidity: 10,
     speed: 2,
-    dailyForecast: [], 
+    dailyForecast: [],
     lastUpdated: '',
   });
   const [name, setName] = useState('');
   const [error, setError] = useState('');
 
-  useEffect(() => {
+  const fetchWeatherData = async () => {
     if (name !== "") {
-      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=e524b45a787ce231dad96d31adc50b43&units=metric`;
-      axios.get(apiUrl)
-        .then(res => {
-          console.log(res.data);
+      const apiKey = 'e524b45a787ce231dad96d31adc50b43';
+      const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=${apiKey}&units=metric`;
+      const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${name}&appid=${apiKey}&units=metric`;
+
+      try {
+        const [weatherResponse, forecastResponse] = await Promise.all([
+          axios.get(weatherUrl),
+          axios.get(forecastUrl),
+        ]);
+
+        if (weatherResponse.data && forecastResponse.data) {
+          const weatherData = weatherResponse.data;
+          const forecastData = forecastResponse.data.list.filter(item =>
+            item.dt_txt.includes('12:00:00')
+          );
+
           setData({
-            celcius: res.data.main.temp,
-            name: res.data.name,
-            humidity: res.data.main.humidity,
-            speed: res.data.wind.speed,
-            dailyForecast: [],
+            celcius: weatherData.main.temp,
+            name: weatherData.name,
+            humidity: weatherData.main.humidity,
+            speed: weatherData.wind.speed,
+            dailyForecast: forecastData.map(item => ({
+              date: item.dt_txt.split(' ')[0],
+              temperature: item.main.temp,
+              condition: item.weather[0].description,
+            })),
             lastUpdated: new Date().toLocaleString(),
           });
-          setError('');
-        })
-        .catch(err => {
-          if (err.response && err.response.status === 404) {
-            setError('Invalid City Name');
-          } else {
-            setError('');
-          }
-          console.log(err);
-        });
-    }
-  }, [name]);
 
-  const fetchDailyForecast = () => {
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${name}&appid=e524b45a787ce231dad96d31adc50b43&units=metric`;
-    axios.get(forecastUrl)
-      .then(res => {
-        console.log(res.data);
-        const dailyData = res.data.list.filter(item => item.dt_txt.includes('12:00:00'));
-        const dailyForecast = dailyData.map(item => ({
-          date: item.dt_txt.split(' ')[0],
-          temperature: item.main.temp,
-          condition: item.weather[0].description,
-        }));
-        setData(prevData => ({ ...prevData, dailyForecast }));
-      })
-      .catch(err => {
-        console.log(err);
-      });
+          setError('');
+        } else {
+          setError('City not found');
+        }
+      } catch (err) {
+        setError('City not found');
+        console.error(err);
+      }
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); 
+    fetchWeatherData(); 
   };
 
   return (
     <div className='container'>
       <div className='weather'>
         <div className='search'>
-          <input type='text' placeholder='Enter City Name' onChange={e => setName(e.target.value)} />
-          <button onClick={fetchDailyForecast}>Search</button>
+          <form onSubmit={handleSubmit}>
+            <input type='text' placeholder='Enter City Name' onChange={e => setName(e.target.value)} />
+            <button type="submit">Search</button>
+          </form>
         </div>
         <div className='error'>
           <p>{error}</p>

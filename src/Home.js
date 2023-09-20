@@ -72,10 +72,24 @@ function Home() {
     });
 };
 
+const getTemperatureClass = () => {
+  const temperature = Math.round(data.celcius);
+
+  if (temperature > 30) {
+    return 'hot';
+  } else if (temperature > 20) {
+    return 'moderate';
+  } else if (temperature > 10) {
+    return 'cool';
+  } else {
+    return 'cold';
+  }
+};
+
   
   return (
     <div className='container'>
-      <div className='weather'>
+    <div className={`weather ${getTemperatureClass()}`}>
       <h1>Weather App</h1>
         <div className='search'>
           <form onSubmit={handleSubmit}>

@@ -127,3 +127,25 @@ body {
     font-size: 14px;
     color: #888;
   }
+
+.hot {
+    background-color: #ff6b6b; 
+    color: white;
+  }
+  
+  .moderate {
+    background-color: #f4b400; 
+  }
+  
+  .cool {
+    background-color: #007bff; 
+    color: white;
+  }
+  
+  .cold {
+    background-color: #5bc0de; 
+    color: white;
+  }
+  
+ 
+  

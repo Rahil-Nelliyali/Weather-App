@@ -60,10 +60,23 @@ function Home() {
     e.preventDefault(); 
     fetchWeatherData(); 
   };
+  const handleShare = () => {
+    const shareableURL = `https://weather-app-iota-orpin.vercel.app/`;
+  
+    navigator.clipboard.writeText(shareableURL)
+    .then(() => {
+      alert('Link copied to clipboard!');
+    })
+    .catch((error) => {
+      console.error('Error copying to clipboard', error);
+    });
+};
 
+  
   return (
     <div className='container'>
       <div className='weather'>
+      <h1>Weather App</h1>
         <div className='search'>
           <form onSubmit={handleSubmit}>
             <input type='text' placeholder='Enter City Name' onChange={e => setName(e.target.value)} />
@@ -107,6 +120,11 @@ function Home() {
             <div className='last-updated'>
               <p>Last Updated: {data.lastUpdated}</p>
             </div>
+            <div className='winfo'>
+
+  <button onClick={handleShare}>Share App</button> 
+</div>
+
           </div>
         )}
       </div>
